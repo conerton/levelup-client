@@ -17,6 +17,7 @@ export const GameList = (props) => {
         className="btn btn-2 btn-sep icon-create"
         onClick={() => {
           props.history.push({ pathname: "/games/new" });
+          console.log("PROPS", props);
         }}
       >
         Register New Game

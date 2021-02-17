@@ -21,10 +21,10 @@ export const GameProvider = (props) => {
       method: "POST",
       headers: {
         Authorization: `Token ${localStorage.getItem("lu_token")}`,
+        "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then(setGames);
+      body: JSON.stringify(game),
+    }).then(setGames);
   };
 
   const getGameTypes = () => {

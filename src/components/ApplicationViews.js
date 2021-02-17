@@ -17,7 +17,7 @@ export const ApplicationViews = (props) => {
       >
         <GameProvider>
           <Route exact path="/games">
-            <GameList />
+            <GameList {...props} />
           </Route>
         </GameProvider>
 
@@ -31,7 +31,7 @@ export const ApplicationViews = (props) => {
 
         <EventProvider>
           <Route exact path="/events">
-            <EventList />
+            <EventList {...props} />
           </Route>
         </EventProvider>
       </main>

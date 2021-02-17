@@ -10,11 +10,10 @@ export const GameForm = (props) => {
         provide some default values.
     */
   const [currentGame, setCurrentGame] = useState({
-    skillLevel: 1,
-    numberOfPlayers: 0,
     title: "",
-    maker: "",
     gameTypeId: 0,
+    numberOfPlayers: 0,
+    description: "",
   });
 
   /*
@@ -29,9 +28,9 @@ export const GameForm = (props) => {
         Update the `currentGame` state variable every time
         the state of one of the input fields changes.
     */
-  const handleControlledInputChange = (event) => {
+  const changeGameState = (domEvent) => {
     const newGameState = Object.assign({}, currentGame);
-    newGameState[event.target.name] = event.target.value;
+    newGameState[domEvent.target.name] = domEvent.target.value;
     setCurrentGame(newGameState);
   };
 
@@ -48,7 +47,50 @@ export const GameForm = (props) => {
             autoFocus
             className="form-control"
             value={currentGame.title}
-            onChange={handleControlledInputChange}
+            onChange={changeGameState}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="gameType">Game Type: </label>
+          <select
+            name="gameTypeId"
+            className="form-control"
+            value={currentGame.gameTypeId}
+            onChange={changeGameState}
+          >
+            <option name="" value="0">
+              Select a game type...
+            </option>
+            {gameTypes.map((type) => (
+              <option name={type.id} value={type.id}>
+                {type.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="numberOfPlayers">Max Players: </label>
+          <input
+            type="text"
+            name="numberOfPlayers"
+            required
+            className="form-control"
+            value={currentGame.numberOfPlayers}
+            onChange={changeGameState}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="description">Description: </label>
+          <input
+            type="text"
+            name="description"
+            required
+            autoFocus
+            className="form-control"
+            value={currentGame.description}
+            onChange={changeGameState}
           />
         </div>
       </fieldset>
@@ -65,12 +107,12 @@ export const GameForm = (props) => {
             maker: currentGame.maker,
             title: currentGame.title,
             numberOfPlayers: parseInt(currentGame.numberOfPlayers),
-            skillLevel: parseInt(currentGame.skillLevel),
+            description: currentGame.description,
             gameTypeId: parseInt(currentGame.gameTypeId),
           };
 
           // Send POST request to your API
-          createGame(game);
+          createGame(game).then(() => props.history.push("/games"));
         }}
         className="btn btn-primary"
       >
@@ -79,4 +121,3 @@ export const GameForm = (props) => {
     </form>
   );
 };
-
